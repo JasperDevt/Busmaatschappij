@@ -16,20 +16,19 @@ class Busmaatschappij {
 		this.naam = naam;
 	}
 	
-	public void inBedrijf(){
-		ArrayList<Bus> bussen = new ArrayList<Bus>();
-		bussen.add(new Waterstofbus());
-		bussen.add(new Waterstofbus());
-		bussen.add(new Benzinebus());
-		bussen.add(new Elektrischebus());
+	public void inBedrijf(){		
 		ArrayList<Buslijn> buslijnen = new ArrayList<Buslijn>();
 		buslijnen.add(new Lijn1());
 		buslijnen.add(new Lijn2());
 		buslijnen.add(new Lijn3());
+		ArrayList<Bus> bussen = new ArrayList<Bus>();
+		bussen.add(new Waterstofbus(buslijnen.get(0)));
+		bussen.add(new Waterstofbus(buslijnen.get(2)));
+		bussen.add(new Waterstofbus(buslijnen.get(0)));
+		bussen.add(new Benzinebus(buslijnen.get(1)));
+		bussen.add(new Elektrischebus(buslijnen.get(2)));
 		for (Bus bus: bussen){
-			for(Buslijn buslijn: buslijnen){
-				bus.rijden(buslijn);
-			}
+			bus.rijden();
 		}
 	}
 	
