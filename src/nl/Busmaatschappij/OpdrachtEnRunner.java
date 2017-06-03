@@ -1,17 +1,38 @@
 package nl.Busmaatschappij;
 
+import java.util.ArrayList;
+
 public class OpdrachtEnRunner {
 	public static void main(String [] args){
 		Busmaatschappij Groenvervoer = new Busmaatschappij("Groenvervoer");
-		System.out.println(Groenvervoer.toString());
+		Groenvervoer.inBedrijf();
 	}
 }
 
 class Busmaatschappij {
-	String naam;	
+	String naam;
+	
 	Busmaatschappij(String naam){
 		this.naam = naam;
 	}
+	
+	public void inBedrijf(){
+		ArrayList<Bus> bussen = new ArrayList<Bus>();
+		bussen.add(new Waterstofbus());
+		bussen.add(new Waterstofbus());
+		bussen.add(new Benzinebus());
+		bussen.add(new Elektrischebus());
+		ArrayList<Buslijn> buslijnen = new ArrayList<Buslijn>();
+		buslijnen.add(new Lijn1());
+		buslijnen.add(new Lijn2());
+		buslijnen.add(new Lijn3());
+		for (Bus bus: bussen){
+			for(Buslijn buslijn: buslijnen){
+				bus.rijden(buslijn);
+			}
+		}
+	}
+	
 	@Override
 	public String toString(){
 		return naam;
