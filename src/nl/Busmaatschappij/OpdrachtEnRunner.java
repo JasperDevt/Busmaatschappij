@@ -1,49 +1,54 @@
 package nl.Busmaatschappij;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class OpdrachtEnRunner {
 	public static void main(String [] args){
 		Busmaatschappij Groenvervoer = new Busmaatschappij("Groenvervoer");
-		Groenvervoer.inBedrijf();
+		Groenvervoer.startmenu();
 	}
 }
 
 class Busmaatschappij {
-	String naam;
-	
+	static String naam;
+	static ArrayList<Buslijn> buslijnen = new ArrayList<Buslijn>();
+	static ArrayList<Bus> bussen = new ArrayList<Bus>();
+	static ArrayList<Chauffeur> chauffeurs = new ArrayList<Chauffeur>();
+	static Beschikbaar beschikbaarheid = e -> e.beschikbaar == true;
+	static Scanner sc = new Scanner(System.in);
+
+
 	Busmaatschappij(String naam){
 		this.naam = naam;
 	}
-	
-	public void inBedrijf(){		
-		
-		ArrayList<Buslijn> buslijnen = new ArrayList<Buslijn>();
-		Buslijn lijn1 = new Lijn1();Buslijn lijn2 = new Lijn2();Buslijn lijn3 = new Lijn3();
-		buslijnen.add(lijn1);buslijnen.add(lijn2);buslijnen.add(lijn3);
-		
-		ArrayList<Bus> bussen = new ArrayList<Bus>();
-		bussen.add(new Waterstofbus());bussen.add(new Waterstofbus(lijn2));bussen.add(new Waterstofbus(lijn1));bussen.add(new Benzinebus(lijn1));
-		bussen.add(new Elektrischebus(lijn1));
-		
-		ArrayList<Bus> garageBussen = new ArrayList<>();
-		
-		ArrayList<Chauffeur> chauffeurs = new ArrayList<Chauffeur>();
-		chauffeurs.add(new Chauffeur("Kees"));chauffeurs.add(new Chauffeur("Jan"));chauffeurs.add(new Chauffeur("Harm"));chauffeurs.add(new Chauffeur("Koen"));chauffeurs.add(new Chauffeur("Jeffrey"));
-		Beschikbaar beschikbaarheid = e -> e.beschikbaar == true;
 
-				
+	public static void startmenu(){	
+		boolean stoppen = false;
+		while(stoppen == false){
+			Keuzemenu.opties();
+			String input = sc.next();
+			switch(input){
+			case "1": bussen.add(Keuzemenu.optie1(sc)); System.out.println("U heeft een " + bussen.get(bussen.size()-1) + " toegevoegd voor kosten: "); break;
+			case "2": chauffeurs.add(Keuzemenu.optie2(sc)); System.out.println("U heeft een chauffeur toegevoegd met de naam: " + chauffeurs.get(chauffeurs.size()-1).naam); break;
+			case "3": rondjeRijden(); break;
+			case "o": Busmaatschappij.overzicht(); break;
+			case "new": Keuzemenu.optie3(sc); break;
+			case "stoppen": stoppen = true; break;
+			}
+		}
+	}
+	static void rondjeRijden(){
 		for (Bus bus: bussen){
 			try{
-			System.out.println();System.out.println("We zoeken een chauffeur voor de " + bus + "....");
-			bus.rijden(Chauffeur.regelChauffeur(chauffeurs, beschikbaarheid));
+				System.out.println();System.out.println("We zoeken een chauffeur voor de " + bus + "....");
+				bus.rijden(Chauffeur.regelChauffeur(chauffeurs, beschikbaarheid));
 			}
 			catch(GeenChauffeur e){
 				System.out.println("Deze " + bus + " heeft geen chauffeur en kan niet rijden.");
 				e.foutmelding();
 			}
 			catch(GeenLijn f){
-				garageBussen.add(bus);
 				f.foutmelding();	
 			}
 			catch(Exception g){
@@ -51,8 +56,28 @@ class Busmaatschappij {
 				System.out.println("Ojee, alles gaat mis! We weten niet wat er aan de hand is. Paniek!");
 			}
 		}
+		Chauffeur.resetBeschikbaarheid(chauffeurs);
+		Busmaatschappij.overzicht();
+		startmenu();
 	}
-	
+
+	public static void overzicht(){
+		System.out.println();
+		System.out.println("------------------------------");
+		System.out.println("Bij deze het overzicht van busmaatschappij " + Busmaatschappij.naam);
+		System.out.println("------------------------------");
+		System.out.println("We hebben " + bussen.size() + " bussen. Hieronder een overzicht van de bussen: ");
+		for (Bus bus: bussen){
+			System.out.println(bus);
+		}
+		System.out.println("------------------------------");
+		System.out.println("We hebben " + chauffeurs.size() + " chauffeurs. Bij deze het overzicht van alle chauffeurs ");
+		for (Chauffeur chauffeur: chauffeurs){
+			System.out.println(chauffeur.naam);
+		}
+		System.out.println("------------------------------");
+	}
+
 	@Override
 	public String toString(){
 		return ""+ naam + "";
@@ -60,7 +85,7 @@ class Busmaatschappij {
 }
 
 interface Betaalbaar {
-	
+
 }
 
 //De criteria voor de opdracht is dat je alle onderstaande onderdelen toepast in je applicatie.
@@ -73,7 +98,7 @@ interface Betaalbaar {
 //1 Array
 //1 ArrayList
 //1 String-object
-//1 StringBuilder-object (<- seriecode bus)
+//1 StringBuilder-object 
 //1 van elke primitive-soort, dus 8
 //2 static variabelen
 //4 overloadings van methodes

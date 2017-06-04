@@ -18,15 +18,21 @@ public class Chauffeur {
 	public String toString(){
 		return ""+ naam + "";
 	}
+	public static void resetBeschikbaarheid(ArrayList<Chauffeur> chauffeurs){
+		for (Chauffeur chauffeur: chauffeurs){
+			chauffeur.beschikbaar = true;
+		}
+	}
 
 	public static Chauffeur regelChauffeur (ArrayList<Chauffeur> chauffeurs, Beschikbaar beschikbaarheid) throws GeenChauffeur{
 		for(Chauffeur chauffeur: chauffeurs){
 			if(beschikbaarheid.check(chauffeur)){
 				System.out.println(chauffeur + " rijdt!");
 				return chauffeur;
-			} else	
+			} else	{
 				System.out.println("Oei, "+ chauffeur + " is al aan het rijden. Even verder kijken.");
-			continue;
+				continue;
+			}
 		}
 		throw new GeenChauffeur();
 	}

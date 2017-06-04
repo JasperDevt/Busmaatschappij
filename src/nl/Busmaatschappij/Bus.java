@@ -89,9 +89,7 @@ class Elektrischebus extends Bus{
 	@Override
 	public String toString(){
 		return this.getClass().getSimpleName() + " met nummer " + busnummer + " op " + lijn;
-	}
-
-	
+	}	
 }
 
 interface Berijdbaar {
@@ -100,6 +98,6 @@ interface Berijdbaar {
 
 class GeenLijn extends Exception {
 	void foutmelding(){
-		System.out.println("De bus heeft geen lijn toegewezen gekregen. Hij gaat naar de garage.");
+		System.out.println("Oeps! De bus kan niet rijden. De bus heeft geen lijn toegewezen gekregen. Hij staat in de garage.");
 	}
 }
