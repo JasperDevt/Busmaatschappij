@@ -1,20 +1,24 @@
 package nl.Busmaatschappij;
 
+import java.awt.Label;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OpdrachtEnRunner {
 	public static void main(String [] args){
 		Busmaatschappij Groenvervoer = new Busmaatschappij("Groenvervoer");
-		Groenvervoer.startmenu();
+		Groenvervoer.managen();
 	}
 }
 
 class Busmaatschappij {
 	static String naam;
+	static long budget = 1_000_000L;
 	static ArrayList<Buslijn> buslijnen = new ArrayList<Buslijn>();
 	static ArrayList<Bus> bussen = new ArrayList<Bus>();
 	static ArrayList<Chauffeur> chauffeurs = new ArrayList<Chauffeur>();
+	static ArrayList<Bus> garagebussen = new ArrayList<>();
 	static Beschikbaar beschikbaarheid = e -> e.beschikbaar == true;
 	static Scanner sc = new Scanner(System.in);
 
@@ -23,15 +27,16 @@ class Busmaatschappij {
 		this.naam = naam;
 	}
 
-	public static void startmenu(){	
+	public static void managen(){	
 		boolean stoppen = false;
 		while(stoppen == false){
 			Keuzemenu.opties();
 			String input = sc.next();
 			switch(input){
-			case "1": bussen.add(Keuzemenu.optie1(sc)); System.out.println("U heeft een " + bussen.get(bussen.size()-1) + " toegevoegd voor kosten: "); break;
+			case "1": bussen.add(Keuzemenu.optie1(sc)); System.out.println("U heeft een " + bussen.get(bussen.size()-1) + " toegevoegd."); break;
 			case "2": chauffeurs.add(Keuzemenu.optie2(sc)); System.out.println("U heeft een chauffeur toegevoegd met de naam: " + chauffeurs.get(chauffeurs.size()-1).naam); break;
 			case "3": rondjeRijden(); break;
+			case "m": maandVerstrijken(); break;
 			case "o": Busmaatschappij.overzicht(); break;
 			case "new": Keuzemenu.optie3(sc); break;
 			case "stoppen": stoppen = true; break;
@@ -39,8 +44,9 @@ class Busmaatschappij {
 		}
 	}
 	static void rondjeRijden(){
-		for (Bus bus: bussen){
-			try{
+		opnieuw: for (Bus bus: bussen){
+			int i = 0;
+			 try{
 				System.out.println();System.out.println("We zoeken een chauffeur voor de " + bus + "....");
 				bus.rijden(Chauffeur.regelChauffeur(chauffeurs, beschikbaarheid));
 			}
@@ -50,17 +56,29 @@ class Busmaatschappij {
 			}
 			catch(GeenLijn f){
 				f.foutmelding();	
+				garagebussen.add(bus);
+				bussen.remove(i);i--;
+				continue opnieuw;
 			}
 			catch(Exception g){
 				System.out.println(g);
 				System.out.println("Ojee, alles gaat mis! We weten niet wat er aan de hand is. Paniek!");
 			}
+			i++;
 		}
 		Chauffeur.resetBeschikbaarheid(chauffeurs);
 		Busmaatschappij.overzicht();
-		startmenu();
+		managen();
 	}
-
+	
+	public static void maandVerstrijken(){
+		variabeleLasten maand = new variabeleLasten();
+		maand.salarissen(chauffeurs);
+		maand.maandelijksBussen(bussen);
+		maand.maandelijkseAfrekening();
+		System.out.println("Maand verstreken.");
+	}
+	
 	public static void overzicht(){
 		System.out.println();
 		System.out.println("------------------------------");
@@ -76,6 +94,11 @@ class Busmaatschappij {
 			System.out.println(chauffeur.naam);
 		}
 		System.out.println("------------------------------");
+		System.out.println("We hebben " + Busmaatschappij.budget + " euro over.");
+		System.out.println(Benzinebus.kosten());
+		System.out.println(Waterstofbus.kosten());
+		System.out.println(Elektrischebus.kosten());
+		System.out.println("------------------------------");
 	}
 
 	@Override
@@ -84,9 +107,7 @@ class Busmaatschappij {
 	}
 }
 
-interface Betaalbaar {
 
-}
 
 //De criteria voor de opdracht is dat je alle onderstaande onderdelen toepast in je applicatie.
 //10 klassen

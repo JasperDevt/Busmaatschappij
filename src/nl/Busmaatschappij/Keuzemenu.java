@@ -3,20 +3,24 @@ package nl.Busmaatschappij;
 import java.util.Scanner;
 
 public class Keuzemenu {
-
+	
 	static void opties(){
+		System.out.println("------------------------------");
 		System.out.println("Wat wilt u doen? Kies de volgende opties voor: ");
 		System.out.println("1 voor het kopen van een bus");
 		System.out.println("2 voor het huren van een chauffeur");
 		System.out.println("3 om een rondje met alle bussen te rijden.");
+		System.out.println("Letter o voor een overzicht.");
+		System.out.println("Letter m om een maand te laten verstrijken.");
 		System.out.println("new voor het starten van een nieuwe busmaatschappij");
+		System.out.println("------------------------------");
 	}
 
 	static Bus optie1(Scanner sc){
 		System.out.println("Wat voor type bus wilt u? ");
-		System.out.println("1 voor een bus die op benzine rijdt. Kosten: ");
-		System.out.println("2 voor een bus die op waterstof rijdt. Kosten: ");
-		System.out.println("3 voor een bus die op elektriciteit rijdt. Kosten: ");
+		System.out.println("1 voor een bus die op benzine rijdt. "+ Benzinebus.kosten());
+		System.out.println("2 voor een bus die op waterstof rijdt. "+Waterstofbus.kosten());
+		System.out.println("3 voor een bus die op elektriciteit rijdt. "+Elektrischebus.kosten());
 		String input = sc.next();
 		switch(input){
 		case "1": return welkelijn("benzine",sc); 

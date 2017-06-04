@@ -2,10 +2,11 @@ package nl.Busmaatschappij;
 
 import java.util.ArrayList;
 
-public abstract class Bus implements Berijdbaar{
+public abstract class Bus implements Berijdbaar, teKoop, onderhoudMaandelijks {
 	int capaciteit;
-	int aanschafWaarde;
+	int kostenAanschaf;
 	double rijKosten;
+	double onderhoudsKosten;
 	static int busnummers;	
 
 }
@@ -21,8 +22,22 @@ class Waterstofbus extends Bus {
 		this.lijn = lijn;
 		busnummers++;
 		busnummer = busnummers;
+		onderhoudsKosten = 3000.0;
+		rijKosten = 100.0;
+		kostenAanschaf = (int)500_000L;
+		Busmaatschappij.budget -= kopen();
 	}
-
+	
+	public static String kosten(){
+		return "U kunt een waterstofbus kopen. Dit is de duurste bus. Dit kost u 500.000.";
+	}
+	
+	public int kopen(){
+		System.out.println("U heeft een waterstofbus gekocht voor: " + kostenAanschaf + " euro.");
+		return kostenAanschaf;
+	}
+	
+	
 	public void rijden(Chauffeur buschauffeurvandienst) throws GeenLijn{
 		if(lijn == null) {
 			throw new GeenLijn();
@@ -34,6 +49,14 @@ class Waterstofbus extends Bus {
 	@Override
 	public String toString(){
 		return this.getClass().getSimpleName() + " met nummer " + busnummer + " op " + lijn;
+	}
+	@Override
+	public double rijKosten() {
+		return rijKosten;
+	}
+	@Override
+	public double onderhoudsKosten() {
+		return onderhoudsKosten;
 	}
 }
 
@@ -49,8 +72,21 @@ class Benzinebus extends Bus{
 		this.lijn = lijn;
 		busnummers++;
 		busnummer = busnummers;
+		onderhoudsKosten = 500.0;
+		rijKosten = 2000.0;
+		kostenAanschaf = (int)150_000L;
+		Busmaatschappij.budget -= kopen();
 	}
-
+	
+	public static String kosten(){
+		return "U kunt een bus op benzine kopen. Dit is de goedkoopste bus. Dit kost u 150.000.";
+	}
+	
+	public int kopen(){
+		System.out.println("U heeft een bus op benzine gekocht voor: " + kostenAanschaf + " euro.");
+		return kostenAanschaf;
+	}
+	
 	public void rijden(Chauffeur buschauffeurvandienst) throws GeenLijn{
 		if(lijn == null) {
 			throw new GeenLijn();
@@ -61,6 +97,16 @@ class Benzinebus extends Bus{
 	@Override
 	public String toString(){
 		return this.getClass().getSimpleName() + " met nummer " + busnummer + " op " + lijn;
+	}
+
+	@Override
+	public double rijKosten() {
+		return rijKosten;
+	}
+
+	@Override
+	public double onderhoudsKosten() {
+		return onderhoudsKosten;
 	}
 }
 
@@ -76,6 +122,19 @@ class Elektrischebus extends Bus{
 		this.lijn = lijn;
 		busnummers++;
 		busnummer = busnummers;
+		onderhoudsKosten = 1000.0;
+		rijKosten = 50.0;
+		kostenAanschaf = (int)300_000L;
+		Busmaatschappij.budget -= kopen();
+	}
+	
+	public static String kosten(){
+		return "U kunt een elektrische bus kopen. Dit is een middeldure bus. Dit kost u 300.000.";
+	}
+	
+	public int kopen(){
+		System.out.println("U heeft een waterstofbus gekocht voor: " + kostenAanschaf + " euro.");
+		return kostenAanschaf;
 	}
 	
 	public void rijden(Chauffeur buschauffeurvandienst) throws GeenLijn{
@@ -89,6 +148,16 @@ class Elektrischebus extends Bus{
 	@Override
 	public String toString(){
 		return this.getClass().getSimpleName() + " met nummer " + busnummer + " op " + lijn;
+	}
+
+	@Override
+	public double rijKosten() {
+		return rijKosten;
+	}
+
+	@Override
+	public double onderhoudsKosten() {
+		return onderhoudsKosten;
 	}	
 }
 

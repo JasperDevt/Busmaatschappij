@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Chauffeur {
 	String naam;
 	boolean beschikbaar = true;
+	private double maandsalaris;
 
 	Chauffeur(){
 		this("John doe");
@@ -12,8 +13,13 @@ public class Chauffeur {
 
 	Chauffeur(String naam){
 		this.naam = naam;
+		maandsalaris = 2150.80F;
 	}
-
+	
+	public double getMaandsalaris(){
+		return maandsalaris;
+	}
+	
 	@Override
 	public String toString(){
 		return ""+ naam + "";
@@ -36,7 +42,6 @@ public class Chauffeur {
 		}
 		throw new GeenChauffeur();
 	}
-
 }
 
 interface Beschikbaar {
