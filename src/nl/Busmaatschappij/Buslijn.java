@@ -6,8 +6,8 @@ public abstract class Buslijn {
 }
 
 class Lijn1 extends Buslijn{
-	int haltes = 15;
-	int passagiers = haltes*5;
+	static int haltes = 15;
+	static int passagiers = haltes*5;
 	@Override
 	int getHaltes() {
 		return haltes;
@@ -15,25 +15,41 @@ class Lijn1 extends Buslijn{
 	@Override
 	int getPassagiers() {
 		return passagiers;
+	}
+	
+	@Override
+	public String toString(){
+		StringBuilder lijntemp = new StringBuilder(this.getClass().getSimpleName());
+		String lijn = lijntemp.insert(4, " ").toString();
+		return lijn;
 	}
 }
 
 class Lijn2 extends Buslijn{
-	int haltes = 5;
-	int passagiers = haltes*10;
+	static int haltes = 5;
+	static int passagiers = haltes*10;
+	
 	@Override
 	int getHaltes() {
 		return haltes;
 	}
+	
 	@Override
 	int getPassagiers() {
 		return passagiers;
+	}
+	
+	@Override
+	public String toString(){
+		StringBuilder lijntemp = new StringBuilder(this.getClass().getSimpleName());
+		String lijn = lijntemp.insert(4, " ").toString();
+		return lijn;
 	}
 }
 
 class Lijn3 extends Buslijn{
-	int haltes = 10;
-	int passagiers = haltes*20;
+	static int haltes = 10;
+	static int passagiers = haltes*20;
 	@Override
 	int getHaltes() {
 		return haltes;
@@ -41,5 +57,12 @@ class Lijn3 extends Buslijn{
 	@Override
 	int getPassagiers() {
 		return passagiers;
+	}
+	
+	@Override
+	public String toString(){
+		StringBuilder lijntemp = new StringBuilder(this.getClass().getSimpleName());
+		String lijn = lijntemp.insert(4, " ").toString();
+		return lijn;
 	}
 }

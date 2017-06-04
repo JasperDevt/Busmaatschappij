@@ -17,28 +17,51 @@ class Busmaatschappij {
 	}
 	
 	public void inBedrijf(){		
+		
 		ArrayList<Buslijn> buslijnen = new ArrayList<Buslijn>();
-		buslijnen.add(new Lijn1());
-		buslijnen.add(new Lijn2());
-		buslijnen.add(new Lijn3());
+		Buslijn lijn1 = new Lijn1();Buslijn lijn2 = new Lijn2();Buslijn lijn3 = new Lijn3();
+		buslijnen.add(lijn1);buslijnen.add(lijn2);buslijnen.add(lijn3);
+		
 		ArrayList<Bus> bussen = new ArrayList<Bus>();
-		bussen.add(new Waterstofbus(buslijnen.get(0)));
-		bussen.add(new Waterstofbus(buslijnen.get(2)));
-		bussen.add(new Waterstofbus(buslijnen.get(0)));
-		bussen.add(new Benzinebus(buslijnen.get(1)));
-		bussen.add(new Elektrischebus(buslijnen.get(2)));
+		bussen.add(new Waterstofbus());bussen.add(new Waterstofbus(lijn2));bussen.add(new Waterstofbus(lijn1));bussen.add(new Benzinebus(lijn1));
+		bussen.add(new Elektrischebus(lijn1));
+		
+		ArrayList<Bus> garageBussen = new ArrayList<>();
+		
+		ArrayList<Chauffeur> chauffeurs = new ArrayList<Chauffeur>();
+		chauffeurs.add(new Chauffeur("Kees"));chauffeurs.add(new Chauffeur("Jan"));chauffeurs.add(new Chauffeur("Harm"));chauffeurs.add(new Chauffeur("Koen"));chauffeurs.add(new Chauffeur("Jeffrey"));
+		Beschikbaar beschikbaarheid = e -> e.beschikbaar == true;
+
+				
 		for (Bus bus: bussen){
-			bus.rijden();
+			try{
+			System.out.println();System.out.println("We zoeken een chauffeur voor de " + bus + "....");
+			bus.rijden(Chauffeur.regelChauffeur(chauffeurs, beschikbaarheid));
+			}
+			catch(GeenChauffeur e){
+				System.out.println("Deze " + bus + " heeft geen chauffeur en kan niet rijden.");
+				e.foutmelding();
+			}
+			catch(GeenLijn f){
+				garageBussen.add(bus);
+				f.foutmelding();	
+			}
+			catch(Exception g){
+				System.out.println(g);
+				System.out.println("Ojee, alles gaat mis! We weten niet wat er aan de hand is. Paniek!");
+			}
 		}
 	}
 	
 	@Override
 	public String toString(){
-		return naam;
+		return ""+ naam + "";
 	}
 }
 
-
+interface Betaalbaar {
+	
+}
 
 //De criteria voor de opdracht is dat je alle onderstaande onderdelen toepast in je applicatie.
 //10 klassen
@@ -50,7 +73,7 @@ class Busmaatschappij {
 //1 Array
 //1 ArrayList
 //1 String-object
-//1 StringBuilder-object
+//1 StringBuilder-object (<- seriecode bus)
 //1 van elke primitive-soort, dus 8
 //2 static variabelen
 //4 overloadings van methodes
