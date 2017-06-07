@@ -49,6 +49,7 @@ class Busmaatschappij {
 			 try{
 				System.out.println();System.out.println("We zoeken een chauffeur voor de " + bus + "....");
 				bus.rijden(Chauffeur.regelChauffeur(chauffeurs, beschikbaarheid));
+				Inkomsten.getInkomsten();Inkomsten.resetInkomsten();
 			}
 			catch(GeenChauffeur e){
 				System.out.println("Deze " + bus + " heeft geen chauffeur en kan niet rijden.");
@@ -75,6 +76,7 @@ class Busmaatschappij {
 		variabeleLasten maand = new variabeleLasten();
 		maand.salarissen(chauffeurs);
 		maand.maandelijksBussen(bussen);
+		Inkomsten.getMaandInkomsten();
 		maand.maandelijkseAfrekening();
 		System.out.println("Maand verstreken.");
 	}

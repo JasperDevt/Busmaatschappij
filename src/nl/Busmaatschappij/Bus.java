@@ -3,8 +3,8 @@ package nl.Busmaatschappij;
 import java.util.ArrayList;
 
 public abstract class Bus implements Berijdbaar, teKoop, onderhoudMaandelijks {
-	int capaciteit;
 	int kostenAanschaf;
+	double inkomsten;
 	double rijKosten;
 	double onderhoudsKosten;
 	static int busnummers;	
@@ -44,6 +44,12 @@ class Waterstofbus extends Bus {
 		}
 		buschauffeurvandienst.beschikbaar = false;
 		System.out.println("We gaan rijden! Deze bus rijdt op waterstof. We gaan langs " + lijn.getHaltes() + " haltes en we nemen mee in totaal " + lijn.getPassagiers() + " passagiers mee." );
+		Inkomsten.verzamelaar(inkomsten(lijn.getPassagiers()));
+		System.out.println("De inkomsten van deze rit zijn: " + inkomsten(lijn.getPassagiers()) + ".We verdienden " + lijn.getTicketprijs() + " per " + lijn.getPassagiers() + " passagiers.");
+	}
+	
+	public double inkomsten(int passagiers){
+		return passagiers*lijn.getTicketprijs();
 	}
 
 	@Override
@@ -93,7 +99,14 @@ class Benzinebus extends Bus{
 		}
 		buschauffeurvandienst.beschikbaar = false;
 		System.out.println("We gaan rijden! Deze bus rijdt op benzine. We gaan langs " + lijn.getHaltes() + " haltes en we nemen in totaal " + lijn.getPassagiers() + " passagiers mee." );
+		Inkomsten.verzamelaar(inkomsten(lijn.getPassagiers()));
+		System.out.println("De inkomsten van deze rit zijn: " + inkomsten(lijn.getPassagiers()) + ".We verdienden " + lijn.getTicketprijs() + " per " + lijn.getPassagiers() + " passagiers.");
 	}
+	
+	public double inkomsten(int passagiers){
+		return passagiers*lijn.getTicketprijs();
+	}
+	
 	@Override
 	public String toString(){
 		return this.getClass().getSimpleName() + " met nummer " + busnummer + " op " + lijn;
@@ -143,6 +156,12 @@ class Elektrischebus extends Bus{
 		}
 		buschauffeurvandienst.beschikbaar = false;		
 		System.out.println("We gaan rijden! Deze bus rijdt op elektriciteit. We gaan langs " + lijn.getHaltes() + " haltes en we nemen in totaal mee: " + lijn.getPassagiers() + " passagiers mee." );
+		Inkomsten.verzamelaar(inkomsten(lijn.getPassagiers()));
+		System.out.println("De inkomsten van deze rit zijn: " + inkomsten(lijn.getPassagiers()) + ".We verdienden " + lijn.getTicketprijs() + " per " + lijn.getPassagiers() + " passagiers.");
+	}
+	
+	public double inkomsten(int passagiers){
+		return passagiers*lijn.getTicketprijs();
 	}
 
 	@Override
@@ -163,6 +182,7 @@ class Elektrischebus extends Bus{
 
 interface Berijdbaar {
 	void rijden(Chauffeur buschauffeurvandienst) throws GeenLijn;
+	double inkomsten(int passagiers);
 }
 
 class GeenLijn extends Exception {

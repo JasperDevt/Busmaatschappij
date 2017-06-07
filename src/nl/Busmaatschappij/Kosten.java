@@ -8,12 +8,29 @@ public class Kosten {
 		System.out.println("Het budget was: " + Busmaatschappij.budget + " en daar wordt " + variabeleLasten.getVariabeleLasten() + " van afgetrokken." );
 		Busmaatschappij.budget -= variabeleLasten.getVariabeleLasten();
 		System.out.println("We houden dan " + Busmaatschappij.budget + " over.");
+		System.out.println("De inkomsten waren: " + Inkomsten.getMaandInkomsten());
+		Busmaatschappij.budget += Inkomsten.getMaandInkomsten();
+		System.out.println("Het budget is nu: " + Busmaatschappij.budget);
 	}
 }
 
-class vasteLasten {
-
-
+class Inkomsten {
+	static double totaleRitInkomsten;
+	static double maandInkomsten;
+	static void verzamelaar(double ritInkomsten){
+		totaleRitInkomsten+=ritInkomsten;
+		maandInkomsten = totaleRitInkomsten*31;
+		Busmaatschappij.budget+=ritInkomsten;
+	}
+	static double getInkomsten(){
+		return totaleRitInkomsten;
+	}
+	static void resetInkomsten(){
+		totaleRitInkomsten = 0;
+	}
+	static double getMaandInkomsten(){
+		return maandInkomsten;
+	}
 }
 
 class variabeleLasten extends Kosten {
